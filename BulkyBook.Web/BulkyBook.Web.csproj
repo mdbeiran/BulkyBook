@@ -13,6 +13,21 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.17" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.17" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.17" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BulkyBook.Business\BulkyBook.Business.csproj" />
+    <ProjectReference Include="..\BulkyBook.DataAccess\BulkyBook.DataAccess.csproj" />
+    <ProjectReference Include="..\BulkyBook.DomainClass\BulkyBook.DomainClass.csproj" />
+    <ProjectReference Include="..\BulkyBook.Services\BulkyBook.Services.csproj" />
+    <ProjectReference Include="..\BulkyBook.Utility\BulkyBook.Utility.csproj" />
+    <ProjectReference Include="..\BulkyBook.ViewModel\BulkyBook.ViewModel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Controllers\" />
+    <Folder Include="Controllers\" />
   </ItemGroup>
 
 </Project>

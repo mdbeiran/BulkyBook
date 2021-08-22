@@ -4,13 +4,20 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace BulkyBook.Web.Data
+namespace BulkyBook.DataAccess.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
+        #region Ctor
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+
         }
+
+        #endregion
+
+
     }
 }
