@@ -1,6 +1,8 @@
-﻿using BulkyBook.DomainClass.Book;
+﻿using BulkyBook.Business.StaticTools;
+using BulkyBook.DomainClass.Book;
 using BulkyBook.Services.Context;
 using BulkyBook.ViewModel.Book;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -13,6 +15,7 @@ using System.Threading.Tasks;
 namespace BulkyBook.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin)]
     public class ManageBooksController : Controller
     {
         #region Ctor
@@ -183,14 +186,13 @@ namespace BulkyBook.Web.Areas.Admin.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete(int id)
+        public async Task Delete(int id)
         {
             Book book = await _unitOfWork.BookRepository
                 .GetBookById(id);
             if (book == null)
             {
                 TempData["Error"] = "Error while Deleting";
-                return Json(new { success = false, message = "Error while deleting" });
             }
 
             // Delete image from server
@@ -206,8 +208,6 @@ namespace BulkyBook.Web.Areas.Admin.Controllers
             await _unitOfWork.BookRepository.Delete(book);
             await _unitOfWork.Save();
             TempData["Success"] = "Delete Successful";
-
-            return Json(new { success = true, message = "Delete Successful" });
         }
 
         #endregion

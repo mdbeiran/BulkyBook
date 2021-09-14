@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using BulkyBook.Business.StaticTools
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -14,7 +16,10 @@
             <img class="animation__shake" src="~/AdminLayout/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
         </div>
 
-        <partial name="_Navbar" />
+        @if (User.IsInRole(SD.Role_Admin))
+        {
+            <partial name="_Navbar" />
+        }
         <partial name="_MainSidebar" />
 
         <!-- Content Wrapper. Contains page content -->
@@ -24,9 +29,12 @@
         </div>
         <!-- /.content-wrapper -->
         <!-- Control Sidebar -->
-        <aside class="control-sidebar control-sidebar-dark">
-            <!-- Control sidebar content goes here -->
-        </aside>
+        @if (User.IsInRole(SD.Role_Admin))
+        {
+            <aside class="control-sidebar control-sidebar-dark">
+                <!-- Control sidebar content goes here -->
+            </aside>
+        }
         <!-- /.control-sidebar -->
     </div>
     <!-- ./wrapper -->

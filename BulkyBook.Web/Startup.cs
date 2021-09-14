@@ -1,10 +1,12 @@
 using BulkyBook.DataAccess.Data;
 using BulkyBook.Services.Context;
+using BulkyBook.Utility.Email;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -37,12 +39,29 @@ namespace BulkyBook.Web
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddIdentity<IdentityUser, IdentityRole>().AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddSingleton<IEmailSender, EmailSender>();
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = $"/Identity/Account/Login";
+                options.LogoutPath = $"/Identity/Account/Logout";
+                options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+            });
+            services.AddAuthentication().AddFacebook(Options =>
+            {
+                Options.AppId = "840503353278199";
+                Options.AppSecret = "29333437999e02056aec8eec30919837";
+            });
+            services.AddAuthentication().AddGoogle(options =>
+            {
+                options.ClientId = "489257710823-ciiu496nvgov61h20gdr8u72ucigfohp.apps.googleusercontent.com";
+                options.ClientSecret = "DS7yiY7KI7ZeCeFU3myCKsXe";
+            });
         }
 
 

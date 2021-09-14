@@ -1,4 +1,6 @@
-﻿<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary border-bottom box-shadow mb-3">
+﻿@using BulkyBook.Business.StaticTools
+
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary border-bottom box-shadow mb-3">
     <div class="container">
         <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">BulkyBook</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -8,9 +10,24 @@
         <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
             <partial name="_LoginPartial" />
             <ul class="navbar-nav flex-grow-1">
-                <li class="nav-item">
-                    <a class="nav-link" asp-area="Admin" asp-controller="Home" asp-action="Index">Admin Panel</a>
-                </li>
+                @if (User.IsInRole(SD.Role_Admin))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="Admin" asp-controller="Home" asp-action="Index">Admin Panel</a>
+                    </li>
+                }
+                @if (User.IsInRole(SD.Role_Employee))
+                {
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Manage User/Company
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" asp-area="Admin" asp-controller="ManageUser" asp-action="Index">User List</a>
+                            <a class="dropdown-item" asp-area="Admin" asp-controller="ManageCompany" asp-action="Index">Company List</a>
+                        </div>
+                    </li>
+                }
                 <li class="nav-item">
                     <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                 </li>

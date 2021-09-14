@@ -32,6 +32,15 @@ namespace BulkyBook.Web.Areas.Customer.Controllers
 
         #endregion
 
+        #region Slider
+
+        public async Task<IActionResult> ShowSlider()
+        {
+            return View();
+        }
+
+        #endregion
+
         #region Privacy
 
         public IActionResult Privacy()

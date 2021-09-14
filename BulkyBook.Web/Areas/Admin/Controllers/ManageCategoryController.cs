@@ -1,6 +1,8 @@
-﻿using BulkyBook.DataAccess.Data;
+﻿using BulkyBook.Business.StaticTools;
+using BulkyBook.DataAccess.Data;
 using BulkyBook.DomainClass.Book;
 using BulkyBook.Services.Context;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,6 +12,7 @@ using System.Threading.Tasks;
 namespace BulkyBook.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin)]
     public class ManageCategoryController : Controller
     {
         #region Ctor
@@ -26,7 +29,8 @@ namespace BulkyBook.Web.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            return View();
+
+            return View(); ;
         }
 
         #endregion

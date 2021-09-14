@@ -1,4 +1,6 @@
-﻿<aside class="main-sidebar sidebar-dark-primary elevation-4">
+﻿@using BulkyBook.Business.StaticTools
+
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="/" class="brand-link">
         <img src="~/AdminLayout/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
@@ -18,65 +20,140 @@
         </div>
 
         <!-- SidebarSearch Form -->
-        <div class="form-inline">
-            <div class="input-group" data-widget="sidebar-search">
-                <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-                <div class="input-group-append">
-                    <button class="btn btn-sidebar">
-                        <i class="fas fa-search fa-fw"></i>
-                    </button>
+        @if (User.IsInRole(SD.Role_Admin))
+        {
+            <div class="form-inline">
+                <div class="input-group" data-widget="sidebar-search">
+                    <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+                    <div class="input-group-append">
+                        <button class="btn btn-sidebar">
+                            <i class="fas fa-search fa-fw"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
+        }
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
-                with font-awesome or any other icon font library -->
-                <li class="nav-item">
-                    <a href="/Admin" class="nav-link">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
-                        <p>
-                            Dashboard
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="" class="nav-link">
-                        <i class="nav-icon fas fa-tasks"></i>
-                        <p>
-                            Manage Books
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="/Admin/ManageBooks/Index" class="nav-link">
-                                <i class="fas fa-list nav-icon"></i>
-                                <p>Book List</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/Admin/ManageBooks/Upsert" class="nav-link">
-                                <i class="fas fa-plus nav-icon"></i>
-                                <p>Create New Book</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/Admin/ManageCategory/Index" class="nav-link">
-                                <i class="fas fa-object-group nav-icon"></i>
-                                <p>Category Book</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/Admin/ManageCoverType/Index" class="nav-link">
-                                <i class="fas fa-object-group nav-icon"></i>
-                                <p>CoverType Book</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+    with font-awesome or any other icon font library -->
+                <!--Dashboard-->
+                @if (User.IsInRole(SD.Role_Admin))
+                {
+                    <li class="nav-item">
+                        <a href="/Admin" class="nav-link">
+                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <p>
+                                Dashboard
+                            </p>
+                        </a>
+                    </li>
+                }
+
+                <!--User-->
+                @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Employee))
+                {
+                    <li class="nav-item">
+                        <a href="" class="nav-link">
+                            <i class="nav-icon fas fa-users"></i>
+                            <p>
+                                Manage Users
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a asp-area="Admin" asp-controller="ManageUser" asp-action="Index" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>User List</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-area="Identity" asp-page="/Account/Register" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Create New User</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/Admin/ManageCompany/Index" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Company List</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+
+                <!--Book-->
+                @if (User.IsInRole(SD.Role_Admin))
+                {
+                    <li class="nav-item">
+                        <a href="" class="nav-link">
+                            <i class="nav-icon fas fa-book"></i>
+                            <p>
+                                Manage Book
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="/Admin/ManageBooks/Index" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Book List</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/Admin/ManageBooks/Upsert" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Create New Book</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/Admin/ManageCategory/Index" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Category List</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/Admin/ManageCoverType/Index" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>CoverType List</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+
+                <!--Slider-->
+                @if (User.IsInRole(SD.Role_Admin))
+                {
+                    <li class="nav-item">
+                        <a href="" class="nav-link">
+                            <i class="nav-icon fas fa-sliders-h"></i>
+                            <p>
+                                Manage Slider
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="/Admin/ManageSlider/Index" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Slider List</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/Admin/ManageSlider/Upsert" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Create New Slider</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
