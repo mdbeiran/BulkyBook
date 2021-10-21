@@ -54,6 +54,12 @@ namespace BulkyBook.Services.Services.User
                 Include(u => u.Company).FirstOrDefaultAsync(u => u.Id == userId);
         }
 
+        public async Task<ApplicationUser> GetUserByEmail(string email)
+        {
+            return await _context.ApplicationUsers.
+                FirstOrDefaultAsync(u => u.Email == email);
+        }
+
         #endregion
     }
 }

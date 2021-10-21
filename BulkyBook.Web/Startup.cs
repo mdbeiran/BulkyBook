@@ -1,6 +1,7 @@
 using BulkyBook.DataAccess.Data;
 using BulkyBook.Services.Context;
 using BulkyBook.Utility.Email;
+using BulkyBook.Utility.Payment;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -12,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Stripe;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,6 +44,7 @@ namespace BulkyBook.Web
             services.AddIdentity<IdentityUser, IdentityRole>().AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddSingleton<IEmailSender, EmailSender>();
+            services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddControllersWithViews();
@@ -61,6 +64,12 @@ namespace BulkyBook.Web
             {
                 options.ClientId = "489257710823-ciiu496nvgov61h20gdr8u72ucigfohp.apps.googleusercontent.com";
                 options.ClientSecret = "DS7yiY7KI7ZeCeFU3myCKsXe";
+            });
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
             });
         }
 
@@ -83,6 +92,8 @@ namespace BulkyBook.Web
             app.UseStaticFiles();
 
             app.UseRouting();
+            StripeConfiguration.ApiKey = Configuration.GetSection("Stripe")["Secretkey"];
+            app.UseSession();
 
             app.UseAuthentication();
             app.UseAuthorization();

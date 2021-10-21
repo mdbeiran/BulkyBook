@@ -15,6 +15,8 @@ namespace BulkyBook.Web.Areas.Identity.Pages.Account.Manage
 {
     public partial class EmailModel : PageModel
     {
+        #region Ctor
+
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IEmailSender _emailSender;
@@ -29,6 +31,8 @@ namespace BulkyBook.Web.Areas.Identity.Pages.Account.Manage
             _emailSender = emailSender;
         }
 
+        #endregion
+
         public string Username { get; set; }
 
         public string Email { get; set; }
@@ -41,6 +45,8 @@ namespace BulkyBook.Web.Areas.Identity.Pages.Account.Manage
         [BindProperty]
         public InputModel Input { get; set; }
 
+        #region Class
+
         public class InputModel
         {
             [Required]
@@ -48,6 +54,8 @@ namespace BulkyBook.Web.Areas.Identity.Pages.Account.Manage
             [Display(Name = "New email")]
             public string NewEmail { get; set; }
         }
+
+        #endregion
 
         private async Task LoadAsync(IdentityUser user)
         {
@@ -61,6 +69,8 @@ namespace BulkyBook.Web.Areas.Identity.Pages.Account.Manage
 
             IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
         }
+
+        #region Handler
 
         public async Task<IActionResult> OnGetAsync()
         {
@@ -142,5 +152,9 @@ namespace BulkyBook.Web.Areas.Identity.Pages.Account.Manage
             StatusMessage = "Verification email sent. Please check your email.";
             return RedirectToPage();
         }
+
+        #endregion
+
     }
+
 }

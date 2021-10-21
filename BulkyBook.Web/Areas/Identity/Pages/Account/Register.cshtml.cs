@@ -121,6 +121,18 @@ namespace BulkyBook.Web.Areas.Identity.Pages.Account
                 })
             };
 
+            if (User.IsInRole(SD.Role_Employee))
+            {
+                Input.RoleList = _roleManager.Roles.
+                    Where(r => r.Name == SD.Role_User_Indi || 
+                    r.Name == SD.Role_User_Comp).
+                    Select(x => x.Name).Select(i => new SelectListItem
+                    {
+                        Text = i,
+                        Value = i
+                    });
+            }
+
             #endregion
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -193,7 +205,7 @@ namespace BulkyBook.Web.Areas.Identity.Pages.Account
 
                     #endregion
 
-                    #region Confirm Emai
+                    #region Confirm Email
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
@@ -228,11 +240,33 @@ namespace BulkyBook.Web.Areas.Identity.Pages.Account
 
                     }
                 }
+
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
+
+            #region Populate Dropdown
+
+            IEnumerable<Company> companies = await _unitOfWork.
+                CompanyRepository.GetCompanies();
+
+            Input = new InputModel()
+            {
+                RoleList = _roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem
+                {
+                    Text = i,
+                    Value = i
+                }),
+                CompanyList = companies.Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.Id.ToString()
+                })
+            };
+
+            #endregion
 
             // If we got this far, something failed, redisplay form
             return Page();

@@ -1,7 +1,9 @@
 ﻿using BulkyBook.Business.StaticTools;
 using BulkyBook.DataAccess.Data;
 using BulkyBook.DomainClass.Book;
+using BulkyBook.DomainClass.Public;
 using BulkyBook.Services.Context;
+using BulkyBook.ViewModel.Book;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -27,10 +29,26 @@ namespace BulkyBook.Web.Areas.Admin.Controllers
 
         #region Index
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index(int categoryPage = 1)
         {
+            CategoryVM categoryVM = new CategoryVM()
+            {
+                Categories = await _unitOfWork.CategoryRepository.GetCategories()
+            };
 
-            return View(); ;
+            int numberOfCategories = categoryVM.Categories.Count();
+            categoryVM.Categories = categoryVM.Categories.
+                OrderBy(c => c.Title).
+                Skip((categoryPage - 1) * 2).Take(2).ToList();
+            categoryVM.PagingInfo = new PagingInfo()
+            {
+                TotalItem = numberOfCategories,
+                ItemsPerPage = 2,
+                CurrentPage = categoryPage,
+                UrlParam = "/Admin/ManageCategory/Index?categoryPage=:"
+            };
+
+            return View(categoryVM);
         }
 
         #endregion
@@ -55,7 +73,7 @@ namespace BulkyBook.Web.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            
+
             return View(category);
         }
 

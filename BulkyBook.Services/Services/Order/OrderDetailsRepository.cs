@@ -5,6 +5,7 @@ using BulkyBook.Services.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -56,7 +57,15 @@ namespace BulkyBook.Services.Services
             return await _context.OrderDetails.FindAsync(orderDetailsId);
         }
 
-        
+        public async Task<IEnumerable<OrderDetails>> GetOrderDetailsByOrderId(int orderId)
+        {
+            return await _context.OrderDetails.
+                Include(o => o.OrderHeader).Include(
+                b => b.Book).Where(
+                o => o.OrderHeaderId == orderId).ToListAsync();
+        }
+
+
 
         #endregion
     }

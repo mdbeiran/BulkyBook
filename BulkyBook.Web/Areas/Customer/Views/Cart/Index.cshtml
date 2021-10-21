@@ -1,0 +1,111 @@
+﻿@model BulkyBook.ViewModel.Order.ShoppingCartVM
+@using BulkyBook.DomainClass.Order
+
+@{
+    ViewData["Title"] = "Cart List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form method="post">
+    <br />
+    @if (Model.CartList.Count() > 0)
+    {
+        <div class="bg-white border">
+            <div class="container p-3">
+                <div class="card">
+                    <div class="card-header bg-dark text-light ml-0 row container">
+                        <div class="col-6">
+                            <i class="fa fa-shopping-cart"></i> &nbsp;
+                            Shopping Cart
+                        </div>
+                        <div class="col-6 text-right">
+                            <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn btn-outline-info btn-sm text-white">Continue Shopping</a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        @foreach (ShoppingCart cart in Model.CartList)
+                        {
+                            <div class="row">
+                                <div class="d-none d-lg-block col-lg-1 text-center py-2">
+                                    <img src="@cart.Book.ImageUrl" class="rounded" width="100%" />
+                                </div>
+                                <div class="col-12 text-sm-center col-lg-6 text-lg-left">
+                                    <h5><strong>@cart.Book.Title</strong></h5>
+                                    <p><small>@cart.Book.Description</small></p>
+                                </div>
+                                <div class="col-12 text-sm-center col-lg-5 text-lg-right row">
+                                    <div class="col-4 text-md-right" style="padding-top:5px;">
+                                        <h6><strong>@cart.Price<span class="text-muted">x</span> @cart.Count </strong></h6>
+                                    </div>
+                                    <div class="col-6 col-sm-4 col-lg-6">
+                                        <div class="float-right mx-1">
+                                            <a asp-action="Plus" asp-route-cartId="@cart.Id" class="btn btn-primary">
+                                                <i class="fas fa-plus"></i>
+                                            </a>
+                                        </div>
+                                        <div class="float-right mx-1">
+                                            <a asp-action="Minus" asp-route-cartId="@cart.Id" class="btn btn-danger">
+                                                <i class="fas fa-minus"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-2 col-sm-4 col-lg-2 text-right">
+                                        <a asp-action="Delete" asp-route-cartId="@cart.Id" class="btn btn-outline-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                        }
+                        <div class="row">
+                            <div class="col-12 col-md-6 offset-md-6 col-lg-4 offset-lg-8 pr-4">
+                                <ul class="list-group">
+                                    <li class="list-group-item d-flex justify-content-between bg-secondary">
+                                        <span class="text-info"> Total (USD)</span>
+                                        <strong class="text-info">$ <span id="txtOrderTotal">@Model.OrderHeader.OrderTotal</span></strong>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-footer row">
+                            @if (Model.OrderHeader.ApplicationUser.CompanyId != null
+                           && Model.OrderHeader.ApplicationUser.Company.IsAuthorizedCompany
+                           && !Model.OrderHeader.ApplicationUser.EmailConfirmed)
+                            {
+                                <div class="col-8 text-danger">
+                                    Email must be confirmed for authorized customer!
+                                </div>
+                                <div class="col-4">
+                                    <button type="submit" class="btn btn-warning">
+                                        Click here to resend confirmation Email
+                                    </button>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-sm-12 col-lg-4 col-md-6 offset-lg-8 offset-md-6 ">
+                                    <a asp-area="Customer" asp-controller="Cart"
+                                       asp-action="Summary" class="btn btn-success text-white
+                                           form-control">
+                                        Summary
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info text-center">
+            <h3>There are no items in the shopping cart</h3>
+        </div>
+    }
+</form>
+
+

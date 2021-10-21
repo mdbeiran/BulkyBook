@@ -6,6 +6,30 @@ $(document).ready(function () {
     loadDataTableBook();
     loadDataTableCompany();
     loadDataTableUser();
+
+    // Load dataTable order
+    let url = window.location.search;
+    if (url.includes("inProcess")) {
+        loadDataTableOrder("GetOrders?status=inProcess");
+    }
+    else {
+        if (url.includes("pending")) {
+            loadDataTableOrder("GetOrders?status=pending");
+        }
+        else {
+            if (url.includes("completed")) {
+                loadDataTableOrder("GetOrders?status=completed");
+            }
+            else {
+                if (url.includes("rejected")) {
+                    loadDataTableOrder("GetOrders?status=rejected");
+                }
+                else {
+                    loadDataTableOrder("GetOrders?status=all");
+                }
+            }
+        }
+    }
 });
 
 
@@ -222,6 +246,36 @@ function loadDataTableUser() {
                             `;
                     }
                 }, "width": "15%"
+            }
+        ]
+    });
+}
+
+
+// Load DataTable related to Order
+function loadDataTableOrder(url) {
+    dataTable = $('#tblOrder').DataTable({
+        "ajax": {
+            "url": "/Admin/ManageOrder/" + url
+        },
+        "columns": [
+            { "data": "id", "width": "10%" },
+            { "data": "applicationUser.fullName", "width": "20%" },
+            { "data": "applicationUser.phoneNumber", "width": "15%" },
+            { "data": "applicationUser.email", "width": "20%" },
+            { "data": "orderStatus", "width": "15%" },
+            { "data": "orderTotal", "width": "10%" },
+            {
+                "data": "id",
+                "render": function (data) {
+                    return `
+                            <div class="text-center">
+                                <a href="/Admin/ManageOrder/OrderDetails/${data}" class="btn btn-info text-white" style="cursor:pointer;">
+                                    <i class="fas fa-info"></i>
+                                </a>
+                            </div>
+                            `;
+                }, "width": "10%"
             }
         ]
     });

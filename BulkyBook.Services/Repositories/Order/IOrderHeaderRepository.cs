@@ -15,5 +15,6 @@ namespace BulkyBook.Services.Repositories
         Task Delete(int orderHeaderId);
         Task<IEnumerable<OrderHeader>> GetOrderHeaders();
         Task<OrderHeader> GetOrderHeaderById(int orderHeaderId);
+        Task<IEnumerable<OrderHeader>> GetOrderHeadersByUserId(string userId);
     }
 }

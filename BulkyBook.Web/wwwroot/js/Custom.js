@@ -16,3 +16,38 @@ function LockUnlock(id) {
         }
     });
 }
+
+
+// Validate for Carrier and Tracking Number inputs
+function validateInput() {
+    let carrier = document.getElementById('carrier').value;
+    let trackingNumber = document.getElementById('trackingNumber').value;
+
+    if (carrier.toString() == '') {
+        swal("Error", "Please Enter Carrier", "error");
+        return false;
+    }
+    else {
+        if (trackingNumber.toString() == '') {
+            swal("Error", "Please Enter TrackingNumber", "error");
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+}
+
+
+// Convert shippingDate and paymentDate to empty
+$(document).ready(function () {
+    let shippingDate = document.getElementById('shippingDate');
+    if (shippingDate.value == '1/1/0001') {
+        shippingDate.value = "";
+    }
+
+    let paymentDate = document.getElementById('paymentDate');
+    if (paymentDate.value == '1/1/0001') {
+        paymentDate.value = "";
+    }
+});
