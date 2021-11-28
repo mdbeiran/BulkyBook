@@ -66,6 +66,8 @@ namespace BulkyBook.DomainClass.Order
         [Required]
         public string PostalCode { get; set; }
 
+        public bool IsViewByAdmin { get; set; }
+
         #endregion
     }
 }

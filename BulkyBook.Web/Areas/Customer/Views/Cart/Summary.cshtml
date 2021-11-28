@@ -11,6 +11,7 @@
 
 <form method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    @Html.AntiForgeryToken()
 
     <br />
     <div class="bg-white border">

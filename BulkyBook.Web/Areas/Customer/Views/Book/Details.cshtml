@@ -8,6 +8,7 @@
 <form method="post">
     <input hidden asp-for="BookId" />
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    @Html.AntiForgeryToken()
 
     <div class="container bg-white">
         <div class="card">

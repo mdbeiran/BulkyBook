@@ -1,9 +1,11 @@
 ﻿using BulkyBook.DataAccess.Data;
 using BulkyBook.Services.Repositories;
 using BulkyBook.Services.Repositories.Public;
+using BulkyBook.Services.Repositories.Setting;
 using BulkyBook.Services.Repositories.User;
 using BulkyBook.Services.Services;
 using BulkyBook.Services.Services.Public;
+using BulkyBook.Services.Services.Setting;
 using BulkyBook.Services.Services.User;
 using System;
 using System.Collections.Generic;
@@ -30,6 +32,8 @@ namespace BulkyBook.Services.Context
             ShoppingCartRepository = new ShoppingCartRepository(context);
             OrderHeaderRepository = new OrderHeaderRepository(context);
             OrderDetailsRepository = new OrderDetailsRepository(context);
+            SiteSettingRepository = new SiteSettingRepository(context);
+            ContactUsRepository = new ContactUsRepository(context);
         }
 
         #endregion
@@ -61,6 +65,13 @@ namespace BulkyBook.Services.Context
         public IOrderHeaderRepository OrderHeaderRepository { get; private set; }
         public IOrderDetailsRepository OrderDetailsRepository { get; private set; }
 
+        #endregion
+
+        #region Setting
+
+        public ISiteSettingRepository SiteSettingRepository { get; private set; }
+
+        public IContactUsRepository ContactUsRepository { get; private set; }
 
         #endregion
 

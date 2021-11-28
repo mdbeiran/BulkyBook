@@ -52,6 +52,12 @@ namespace BulkyBook.Web.Areas.Admin.Controllers
                 GetOrderDetailsByOrderId(id)
             };
 
+            if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Employee))
+            {
+                orderDetailsVM.OrderHeader.IsViewByAdmin = true;
+                await _unitOfWork.Save();
+            }
+
             return View(orderDetailsVM);
         }
 
@@ -202,34 +208,84 @@ namespace BulkyBook.Web.Areas.Admin.Controllers
                     GetOrderHeadersByUserId(claim.Value);
             }
 
-            switch (status)
+            if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Employee))
             {
-                case "inProcess":
-                    orders = orders.Where(
-                     o => o.OrderStatus == SD.StatusPending ||
-                     o.OrderStatus == SD.StatusApproved ||
-                     o.OrderStatus == SD.StatusInProcess);
-                    break;
+                switch (status)
+                {
+                    case "inProcess":
+                        orders = orders.Where(
+                         o => o.OrderStatus == SD.StatusPending ||
+                         o.OrderStatus == SD.StatusApproved ||
+                         o.OrderStatus == SD.StatusInProcess);
+                        break;
 
-                case "pending":
-                    orders = orders.Where(
-                        o => o.PaymentStatus == SD.PaymentStatusDelayedPayment);
-                    break;
+                    case "pending":
+                        orders = orders.Where(
+                            o => o.PaymentStatus == SD.PaymentStatusDelayedPayment);
+                        break;
 
-                case "completed":
-                    orders = orders.Where(
-                        o => o.OrderStatus == SD.StatusShipped);
-                    break;
+                    case "completed":
+                        orders = orders.Where(
+                            o => o.OrderStatus == SD.StatusShipped);
+                        break;
 
-                case "rejected":
-                    orders = orders.Where(
-                        o => o.OrderStatus == SD.StatusRefunded ||
-                        o.OrderStatus == SD.StatusCancelled ||
-                        o.OrderStatus == SD.PaymentStatusRejected);
-                    break;
+                    case "rejected":
+                        orders = orders.Where(
+                            o => o.OrderStatus == SD.StatusRefunded ||
+                            o.OrderStatus == SD.StatusCancelled ||
+                            o.OrderStatus == SD.PaymentStatusRejected);
+                        break;
 
-                default:
-                    break;
+                    case "all":
+                        break;
+
+                    case "newest":
+                        orders = orders.OrderByDescending(o => o.Id).Where(
+                            o => o.IsViewByAdmin == false
+                            );
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                switch (status)
+                {
+                    case "inProcess":
+                        orders = orders.Where(
+                         o => o.OrderStatus == SD.StatusPending ||
+                         o.OrderStatus == SD.StatusApproved ||
+                         o.OrderStatus == SD.StatusInProcess);
+                        break;
+
+                    case "pending":
+                        orders = orders.Where(
+                            o => o.PaymentStatus == SD.PaymentStatusDelayedPayment);
+                        break;
+
+                    case "completed":
+                        orders = orders.Where(
+                            o => o.OrderStatus == SD.StatusShipped);
+                        break;
+
+                    case "rejected":
+                        orders = orders.Where(
+                            o => o.OrderStatus == SD.StatusRefunded ||
+                            o.OrderStatus == SD.StatusCancelled ||
+                            o.OrderStatus == SD.PaymentStatusRejected);
+                        break;
+
+                    case "all":
+                        break;
+
+                    case "newest":
+                        break;
+
+                    default:
+                        break;
+                }
             }
 
             return Json(new { data = orders });

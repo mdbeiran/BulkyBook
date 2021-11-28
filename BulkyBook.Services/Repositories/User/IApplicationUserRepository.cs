@@ -15,5 +15,6 @@ namespace BulkyBook.Services.Repositories.User
         Task<IEnumerable<ApplicationUser>> GetUsers();
         Task<ApplicationUser> GetUserById(string userId);
         Task<ApplicationUser> GetUserByEmail(string email);
+        Task<int> GetCountUserRegistration();
     }
 }

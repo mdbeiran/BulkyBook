@@ -37,7 +37,7 @@ namespace BulkyBook.Services.Services
 
         public async Task Delete(OrderHeader orderHeader)
         {
-              _context.OrderHeaders.Remove(orderHeader);
+            _context.OrderHeaders.Remove(orderHeader);
         }
 
         public async Task Delete(int orderHeaderId)
@@ -49,14 +49,14 @@ namespace BulkyBook.Services.Services
 
         public async Task<IEnumerable<OrderHeader>> GetOrderHeaders()
         {
-            return  await _context.OrderHeaders.Include(u=>u.ApplicationUser).ToListAsync();
+            return await _context.OrderHeaders.Include(u => u.ApplicationUser).ToListAsync();
         }
 
         public async Task<OrderHeader> GetOrderHeaderById(int orderHeaderId)
         {
             return await _context.OrderHeaders.
-                Include(u=>u.ApplicationUser).
-                FirstOrDefaultAsync(o=>o.Id==orderHeaderId);
+                Include(u => u.ApplicationUser).
+                FirstOrDefaultAsync(o => o.Id == orderHeaderId);
         }
 
         public async Task<IEnumerable<OrderHeader>> GetOrderHeadersByUserId(string userId)
@@ -64,6 +64,12 @@ namespace BulkyBook.Services.Services
             return await _context.OrderHeaders.Include(
                 u => u.ApplicationUser).Where(
                 o => o.ApplicationUserId == userId).ToListAsync();
+        }
+
+        public async Task<int> GetCountNewOrders()
+        {
+            return await _context.OrderHeaders.
+                Where(o => o.IsViewByAdmin == false).CountAsync();
         }
 
 

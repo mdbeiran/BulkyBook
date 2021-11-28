@@ -1,11 +1,33 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Web;
 
 namespace BulkyBook.Business.StaticTools
 {
     public static class SD
     {
+        #region Default
+
+        public static readonly string NoPhoto = "/images/DefaultImages/no-photo.png";
+
+        #endregion
+
+        #region Book
+
+        // Book FullPath
+        public static readonly string BookImageFullPath = "";
+
+        #endregion
+
+        #region Slider
+
+        public static readonly string OriginalSliderImagePath = "wwwroot/images/Slider/Origin/";
+        public static readonly string ThumbSliderImagePath = "wwwroot/images/Slider/Thumb/";
+
+        #endregion
+
         #region Roles
 
         public const string Role_Admin = "Admin";
@@ -38,5 +60,7 @@ namespace BulkyBook.Business.StaticTools
         public const string PaymentStatusRejected = "Rejected";
 
         #endregion
+
+        
     }
 }

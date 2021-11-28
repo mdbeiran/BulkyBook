@@ -60,6 +60,11 @@ namespace BulkyBook.Services.Services.User
                 FirstOrDefaultAsync(u => u.Email == email);
         }
 
+        public async Task<int> GetCountUserRegistration()
+        {
+            return await _context.ApplicationUsers.CountAsync();
+        }
+
         #endregion
     }
 }

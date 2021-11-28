@@ -92,6 +92,7 @@ namespace BulkyBook.Web.Areas.Admin.Controllers
         {
             IEnumerable<Company> companies = await _unitOfWork.
                 CompanyRepository.GetCompanies();
+
             return Json(new { data = companies });
         }
 

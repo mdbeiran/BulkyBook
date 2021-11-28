@@ -4,10 +4,12 @@ using BulkyBook.Services.Context;
 using BulkyBook.ViewModel.Book;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -74,6 +76,7 @@ namespace BulkyBook.Web.Areas.Admin.Controllers
             // Update
             bookVM.Book = await _unitOfWork.BookRepository.
                 GetBookById(id.Value);
+
             if (bookVM.Book == null)
             {
                 return NotFound();
@@ -101,8 +104,10 @@ namespace BulkyBook.Web.Areas.Admin.Controllers
                 if (files.Count > 0)
                 {
                     string fileName = Guid.NewGuid().ToString();
-                    var uploads = Path.Combine(webRootPath, @"images/Books");
                     var extension = Path.GetExtension(files[0].FileName);
+                    var uploadsOrigin = Path.Combine(webRootPath, @"images/Books/Origin");
+
+                    #region Delete old image When Edit Book
 
                     // this is an edit and we need to remove old image
                     if (bookVM.Book.ImageUrl != null)
@@ -116,14 +121,18 @@ namespace BulkyBook.Web.Areas.Admin.Controllers
                         }
                     }
 
-                    // Store image on server
-                    using (var filesStreams = new FileStream(Path.Combine(uploads,
+                    #endregion
+
+                    #region Stor original image on Server
+
+                    using (var filesStreams = new FileStream(Path.Combine(uploadsOrigin,
                         fileName + extension), FileMode.Create))
                     {
                         await files[0].CopyToAsync(filesStreams);
                     }
+                    #endregion
 
-                    bookVM.Book.ImageUrl = @"\images\Books\" + fileName + extension;
+                    bookVM.Book.ImageUrl = @"\images\Books\Origin\" + fileName + extension;
                 }
                 else
                 {
@@ -184,6 +193,7 @@ namespace BulkyBook.Web.Areas.Admin.Controllers
                                         .GetBooks();
             return Json(new { data = books });
         }
+
 
         [HttpDelete]
         public async Task Delete(int id)

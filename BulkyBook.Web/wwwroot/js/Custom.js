@@ -8,7 +8,7 @@ function LockUnlock(id) {
         success: function (data) {
             if (data.success) {
                 toastr.success(data.message);
-                dataTable.ajax.reload();
+                $('#tblUser').DataTable().ajax.reload();
             }
             else {
                 toastr.error(data.message);
@@ -51,3 +51,17 @@ $(document).ready(function () {
         paymentDate.value = "";
     }
 });
+
+
+// Validate Answer TextArea
+function ValidateTextArea() {
+    let answer = document.getElementById('answer').value;
+
+    if (answer.toString() == '') {
+        swal("Error", "Please enter answer", "error");
+        return false;
+    }
+    else {
+        return true;
+    }
+}

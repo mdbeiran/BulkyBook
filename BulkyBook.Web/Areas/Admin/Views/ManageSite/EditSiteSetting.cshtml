@@ -1,0 +1,137 @@
+﻿@model BulkyBook.DomainClass.Setting.SiteSetting
+
+@{
+    ViewData["Title"] = "EditSiteSetting";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<form method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    @Html.AntiForgeryToken()
+    <input asp-for="SettingId" hidden />
+
+    <div class="row p-3 border">
+        <div class="col-12 border-bottom">
+            <h2 class="text-dark">Edit Site Setting</h2>
+        </div>
+        <div class="col-8 pt-4">
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="SiteName"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="SiteName" class="form-control" />
+                    <span asp-validation-for="SiteName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label>About Us</label>
+                </div>
+                <div class="col-8">
+                    <textarea asp-for="SiteDescription" class="form-control"></textarea>
+                    <span asp-validation-for="SiteDescription" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="SiteEmail"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="SiteEmail" class="form-control" />
+                    <span asp-validation-for="SiteEmail" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="SiteTell"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="SiteTell" class="form-control" />
+                    <span asp-validation-for="SiteTell" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="SiteMobile"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="SiteMobile" class="form-control" />
+                    <span asp-validation-for="SiteMobile" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="SiteFax"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="SiteFax" class="form-control" />
+                    <span asp-validation-for="SiteFax" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Address"></label>
+                </div>
+                <div class="col-8">
+                    <textarea asp-for="Address" class="form-control"></textarea>
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="SiteRules"></label>
+                </div>
+                <div class="col-8">
+                    <textarea asp-for="SiteRules" class="form-control"></textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="CopyRight"></label>
+                </div>
+                <div class="col-8">
+                    <textarea asp-for="CopyRight" class="form-control" ></textarea>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-8 offset-4">
+                    <div class="row">
+                        <div class="col">
+                            <button type="submit" class="btn btn-primary form-control">
+                                Update
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+
+    <script src="https://cdn.tiny.cloud/1/ngmcapzjz97fuxpvni2s8pkccjooqt74196lnte523vnj1ul/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+
+        // TinyMCE
+        tinymce.init({
+            selector: 'textarea',
+            height: 250,
+            menubar: 'file edit format',
+            plugins: [
+                'advlist autolink lists link image charmap print preview anchor',
+                'searchreplace visualblocks code fullscreen',
+                'insertdatetime media table paste code help wordcount'
+            ],
+            toolbar: 'undo redo | formatselect | ' +
+                'bold italic backcolor | alignleft aligncenter ' +
+                'alignright alignjustify | bullist numlist outdent indent | ' +
+                'removeformat | help',
+            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+        });
+
+    </script>
+}

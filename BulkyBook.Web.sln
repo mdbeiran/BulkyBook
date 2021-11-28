@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkyBook.Utility", "BulkyB
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkyBook.ViewModel", "BulkyBook.ViewModel\BulkyBook.ViewModel.csproj", "{8C0D4448-D61F-4A5B-8486-FE4B9159FD86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkyBook.DomainClass", "BulkyBook.DomainClass\BulkyBook.DomainClass.csproj", "{81B8E8A8-6BE6-4E49-B71B-CD8E059A69DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkyBook.DomainClass", "BulkyBook.DomainClass\BulkyBook.DomainClass.csproj", "{81B8E8A8-6BE6-4E49-B71B-CD8E059A69DA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

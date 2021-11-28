@@ -1,4 +1,5 @@
-﻿using BulkyBook.Services.Context;
+﻿using BulkyBook.DomainClass.Public;
+using BulkyBook.Services.Context;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,10 @@ namespace BulkyBook.Web.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            return View();
+            IEnumerable<Slider> sliders = await _unitOfWork.SliderRepository.
+                GetActiveSliders();
+
+            return View(sliders);
         }
     }
 }

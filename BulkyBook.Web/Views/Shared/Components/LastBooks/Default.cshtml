@@ -1,8 +1,7 @@
 ﻿@model IEnumerable<BulkyBook.DomainClass.Book.Book>
 @using BulkyBook.DomainClass.Book
-<div>
-    <h3 class="text-primary">Last Books</h3>
-    <br />
+<div class="container mt-5">
+    <h3 class="text-primary mb-0">Last Books</h3>
     <div class="row pb-3 bg-white">
         @foreach (Book book in Model)
         {

@@ -6,6 +6,8 @@ $(document).ready(function () {
     loadDataTableBook();
     loadDataTableCompany();
     loadDataTableUser();
+    loadDataTableSlider();
+    loadDataTableContactUs();
 
     // Load dataTable order
     let url = window.location.search;
@@ -25,7 +27,17 @@ $(document).ready(function () {
                     loadDataTableOrder("GetOrders?status=rejected");
                 }
                 else {
-                    loadDataTableOrder("GetOrders?status=all");
+                    if (url.includes("newest")) {
+                        loadDataTableOrder("GetOrders?status=newest");
+                    }
+                    else {
+                        if (url.includes("all")) {
+                            loadDataTableOrder("GetOrders?status=all");
+                        }
+                        else {
+                            loadDataTableOrder("GetOrders?status=newest");
+                        }
+                    }
                 }
             }
         }
@@ -33,7 +45,7 @@ $(document).ready(function () {
 });
 
 
-// Load DataTable related to Category
+// Load DataTabl Category
 function loadDataTableCategory() {
     dataTable = $('#tblCategory').DataTable({
         "ajax": {
@@ -49,7 +61,7 @@ function loadDataTableCategory() {
                                 <a href="/Admin/ManageCategory/Upsert/${data}" class="btn btn-warning text-white" style="cursor:pointer;">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <a onclick=Delete("/Admin/ManageCategory/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer;">
+                                <a onclick=DeleteCategory("/Admin/ManageCategory/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer;">
                                     <i class="fas fa-trash-alt"></i>
                                 </a>
                             </div>
@@ -61,7 +73,7 @@ function loadDataTableCategory() {
 }
 
 
-// Load DataTable related to CoverType
+// Load DataTable CoverType
 function loadDataTableCoverType() {
     dataTable = $('#tblCoverType').DataTable({
         "ajax": {
@@ -77,7 +89,7 @@ function loadDataTableCoverType() {
                                 <a href="/Admin/ManageCoverType/Upsert/${data}" class="btn btn-warning text-white" style="cursor:pointer;">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <a onclick=Delete("/Admin/ManageCoverType/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer;">
+                                <a onclick=DeleteCoverType("/Admin/ManageCoverType/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer;">
                                     <i class="fas fa-trash-alt"></i>
                                 </a>
                             </div>
@@ -89,7 +101,7 @@ function loadDataTableCoverType() {
 }
 
 
-// Load DataTable related to Book
+// Load DataTable Book
 function loadDataTableBook() {
     dataTable = $('#tblBook').DataTable({
         "ajax": {
@@ -109,7 +121,7 @@ function loadDataTableBook() {
                                 <a href="/Admin/ManageBooks/Upsert/${data}" class="btn btn-warning text-white" style="cursor:pointer;">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <a onclick=Delete("/Admin/ManageBooks/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer;">
+                                <a onclick=DeleteBook("/Admin/ManageBooks/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer;">
                                     <i class="fas fa-trash-alt"></i>
                                 </a>
                             </div>
@@ -121,7 +133,7 @@ function loadDataTableBook() {
 }
 
 
-// Load DataTable related to Company
+// Load DataTable Company
 function loadDataTableCompany() {
     dataTable = $('#tblCompany').DataTable({
         "ajax": {
@@ -152,7 +164,7 @@ function loadDataTableCompany() {
                                 <a href="/Admin/ManageCompany/Upsert/${data}" class="btn btn-warning text-white" style="cursor:pointer;">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <a onclick=Delete("/Admin/ManageCompany/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer;">
+                                <a onclick=DeleteCompany("/Admin/ManageCompany/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer;">
                                     <i class="fas fa-trash-alt"></i>
                                 </a>
                             </div>
@@ -164,49 +176,7 @@ function loadDataTableCompany() {
 }
 
 
-// Load DataTable related to Slider
-function loadDataTableSlider() {
-    dataTable = $('#tblSlider').DataTable({
-        "ajax": {
-            "url": "/Admin/ManageSlider/GetAllSliders"
-        },
-        "columns": [
-            { "data": "imageUrl", "width": "20%" },
-            { "data": "title", "width": "15%" },
-            { "data": "url", "width": "30%" },
-            { "data": "visit", "width": "10%" },
-            {
-                "data": "isActive",
-                "render": function (data) {
-                    if (data) {
-                        return `<input type="checkbox" disabled checked />`
-                    }
-                    else {
-                        return `<input type="checkbox" disabled />`
-                    }
-                }, "width": "10%"
-            },
-            {
-                "data": "id",
-                "render": function (data) {
-                    return `
-                            <div class="text-center">
-                                <a href="/Admin/ManageSlider/Upsert/${data}" class="btn btn-warning text-white" style="cursor:pointer;">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <a onclick=Delete("/Admin/ManageSlider/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer;">
-                                    <i class="fas fa-trash-alt"></i>
-                                </a>
-                            </div>
-                            `;
-                }, "width": "15%"
-            }
-        ]
-    });
-}
-
-
-// Load DataTable related to User
+// Load DataTable User
 function loadDataTableUser() {
     dataTable = $('#tblUser').DataTable({
         "ajax": {
@@ -252,7 +222,7 @@ function loadDataTableUser() {
 }
 
 
-// Load DataTable related to Order
+// Load DataTable Order
 function loadDataTableOrder(url) {
     dataTable = $('#tblOrder').DataTable({
         "ajax": {
@@ -261,10 +231,22 @@ function loadDataTableOrder(url) {
         "columns": [
             { "data": "id", "width": "10%" },
             { "data": "applicationUser.fullName", "width": "20%" },
-            { "data": "applicationUser.phoneNumber", "width": "15%" },
+            { "data": "applicationUser.phoneNumber", "width": "10%" },
             { "data": "applicationUser.email", "width": "20%" },
             { "data": "orderStatus", "width": "15%" },
             { "data": "orderTotal", "width": "10%" },
+            {
+                "data": "isViewByAdmin",
+                "render": function (data) {
+                    if (data) {
+                        return `<input type="checkbox" disabled checked />`
+                    }
+                    else {
+                        return `<input type="checkbox" disabled />`
+                    }
+                },
+                "width": "5%"
+            },
             {
                 "data": "id",
                 "render": function (data) {
@@ -276,6 +258,96 @@ function loadDataTableOrder(url) {
                             </div>
                             `;
                 }, "width": "10%"
+            }
+        ]
+    });
+}
+
+
+// Load DataTable Slider
+function loadDataTableSlider() {
+    dataTable = $('#tblSlider').DataTable({
+        "ajax": {
+            "url": "/Admin/ManageSlider/GetAllSliders"
+        },
+        "columns": [
+            {
+                "data": "imageName",
+                "render": function (data) {
+                    return `
+                              <img src="/images/Slider/Thumb/${data}" style="width: 100px" />
+                            `;
+                },
+                "width": "20%"
+            },
+            { "data": "title", "width": "10%" },
+            { "data": "url", "width": "15%" },
+            { "data": "visit", "width": "10%" },
+            {
+                "data": "isActive",
+                "render": function (data) {
+                    if (data) {
+                        return `<input type="checkbox" disabled checked />`
+                    }
+                    else {
+                        return `<input type="checkbox" disabled />`
+                    }
+                },
+                "width": "10%"
+            },
+            {
+                "data": "id",
+                "render": function (data) {
+                    return `
+                            <div class="text-center">
+                                <a href="/Admin/ManageSlider/Upsert/${data}" class="btn btn-warning text-white" style="cursor:pointer;">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a onclick=DeleteSlider("/Admin/ManageSlider/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer;">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </div>
+                            `;
+                }, "width": "30%"
+            }
+        ]
+    });
+}
+
+
+// Load DataTable ContactUs
+function loadDataTableContactUs() {
+    dataTable = $('#tblContactUs').DataTable({
+        "ajax": {
+            "url": "/Admin/ManageSite/GetAllContactUs"
+        },
+        "columns": [
+            { "data": "fullName", "width": "30%" },
+            {
+                "data": "answer",
+                "render": function (data) {
+                    if (data == null) {
+                        return data = "No Answer";
+                    }
+                    else {
+                        return data = "has been answered";
+                    }
+                },
+                "width": "20%"
+            },
+            { "data": "subject", "width": "15%" },
+            { "data": "createDate", "width": "20%" },
+            {
+                "data": "id",
+                "render": function (data) {
+                    return `
+                            <div class="text-center">
+                                <a title="Reply to message" href="/Admin/ManageSite/ShowMessage/${data}" class="btn btn-warning text-white" style="cursor:pointer;">
+                                    <i class="fas fa-reply"></i>
+                                </a>
+                            </div>
+                            `;
+                }, "width": "15%"
             }
         ]
     });

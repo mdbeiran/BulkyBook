@@ -1,0 +1,70 @@
+﻿@model BulkyBook.ViewModel.Setting.SettingAndContactVM
+@using BulkyBook.DomainClass.Setting
+
+@{
+    ViewData["Title"] = "ContactUs";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container p-5">
+    <div class="row">
+        <div class="col-md-4">
+            @*<h2 class="text-center font-weight-bold">Contacts</h2>*@
+            @*<address class="pt-5">
+            <p>@Model.SiteSetting.SiteName</p>
+            <p><span class="font-weight-bold">Address :</span>@Html.Raw(Model.SiteSetting.Address) </p>
+            <p><span class="font-weight-bold">Phone Number</span> : @Model.SiteSetting.SiteTell</p>
+            <p><span class="font-weight-bold">Fax</span> : @Model.SiteSetting.SiteFax</p>
+            <p><span class="font-weight-bold">Email</span> : @Model.SiteSetting.SiteEmail</p>
+        </address>*@
+
+            <h1 class="text-center font-weight-bold">Contacts</h1>
+
+            <div class="pt-5">
+                <address>
+                    @Model.SiteSetting.SiteName<br><br />
+                    <span class="font-weight-bold">Address :</span> @Html.Raw(Model.SiteSetting.Address)<br>
+                    <span class="font-weight-bold">Phone Number :</span> @Model.SiteSetting.SiteTell<br />
+                    <span class="font-weight-bold">Fax : </span> @Model.SiteSetting.SiteFax<br>
+                    <span class="font-weight-bold">Email : </span> @Model.SiteSetting.SiteEmail
+                </address>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <h2 class="text-center font-weight-bold">Contact Us</h2>
+            <div class="pt-5">
+                <form method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-row py-2">
+                        <div class="col">
+                            <input asp-for="ContactUs.Email" class="form-control" placeholder="Email" />
+                            <span asp-validation-for="ContactUs.Email" class="text-danger"></span>
+                        </div>
+                        <div class="col">
+                            <input asp-for="ContactUs.FullName" class="form-control" placeholder="FullName" />
+                            <span asp-validation-for="ContactUs.FullName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="py-2">
+                        <input asp-for="ContactUs.Subject" class="form-control" placeholder="Subject" />
+                        <span asp-validation-for="ContactUs.Subject" class="text-danger"></span>
+                    </div>
+                    <div class="py-2">
+                        <textarea asp-for="ContactUs.Message" class="form-control" placeholder="Message" ></textarea>
+                        <span asp-validation-for="ContactUs.Message" class="text-danger"></span>
+                    </div>
+                    <div class="py-2">
+                        <button type="submit" class="btn btn-success btn-block">Send</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}
+

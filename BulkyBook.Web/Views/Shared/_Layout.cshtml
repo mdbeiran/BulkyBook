@@ -11,12 +11,13 @@
     <header>
         <partial name="_Navbar" />
     </header>
-    <div class="container">
+    <div @*style="margin-bottom:400px;"*@>
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-    <partial name="_Footer" />
+
+    @await Component.InvokeAsync("Footer")
     <partial name="_RefrenceScripts" />
 
     @RenderSection("Scripts", required: false)

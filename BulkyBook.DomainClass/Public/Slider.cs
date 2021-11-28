@@ -20,7 +20,7 @@ namespace BulkyBook.DomainClass.Public
         [MaxLength(500)]
         public string Description { get; set; }
 
-        public string ImageUrl { get; set; }
+        public string ImageName { get; set; }
 
 
         [Required]

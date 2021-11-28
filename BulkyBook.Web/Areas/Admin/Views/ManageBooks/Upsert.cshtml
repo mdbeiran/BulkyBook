@@ -1,4 +1,6 @@
 ﻿@model BulkyBook.ViewModel.Book.BookVM
+@using BulkyBook.Business.StaticTools
+
 @{
     ViewData["Title"] = Model.Book.Id == 0 ? "Create Book" : "Edit Book";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
@@ -6,10 +8,12 @@
 
 <form method="post" enctype="multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    
+    @Html.AntiForgeryToken()
+
     @if (Model.Book.Id != 0)
     {
         <input type="hidden" asp-for="Book.Id" />
+        <input type="hidden" asp-for="Book.ImageUrl" />
     }
 
     <div class="row p-3 border">
@@ -90,7 +94,7 @@
                 </div>
             </div>
             <div class="form-group row">
-                <div class="col-4">
+                <div class="col-4 text-bold">
                     Category
                 </div>
                 <div class="col-8">
@@ -101,7 +105,7 @@
                 </div>
             </div>
             <div class="form-group row">
-                <div class="col-4">
+                <div class="col-4 text-bold">
                     CoverType
                 </div>
                 <div class="col-8">
@@ -111,37 +115,22 @@
                     <span asp-validation-for="Book.CoverTypeId" class="text-danger"></span>
                 </div>
             </div>
-            @*<div class="form-group row">
-            <div class="col-4">
-                Image
-            </div>
-            <div class="col-8">
-                <input type="file" name="BookImage" id="BookImageInput" multiple class="form-control" />
-            </div>
-        </div>*@
-            <div class="form-group row">
-                <div class="col-4">
-                    <label for="exampleInputFile">Image</label>
-                </div>
-                <div class="col-8">
-                    <div class="input-group">
-                        <div class="custom-file">
-                            <input type="file" class="custom-file-input form-control" multiple name="BookImage" id="BookImageInput">
-                            <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
             <div class="form-group row">
                 <div class="col-8 offset-4">
                     @if (Model.Book.Id == 0)
                     {
                         <div class="row">
                             <div class="col">
-                                <button type="submit" onclick="return validateImageInput()" class="btn btn-success form-control">Create</button>
+                                <button type="submit" onclick="return validateImageInput()"
+                                        class="btn btn-success form-control">
+                                    Create
+                                </button>
                             </div>
                             <div class="col">
-                                <a asp-action="Index" class="btn btn-primary form-control">Back To List</a>
+                                <a asp-action="Index" class="btn btn-primary form-control">
+                                    Back To List
+                                </a>
                             </div>
                         </div>
                     }
@@ -152,8 +141,35 @@
                 </div>
             </div>
         </div>
-        <div class="col-3 offset-1 pt-4">
-            <img src="@Model.Book.ImageUrl" class="img-thumbnail" />
+        <div class="col-4 pt-4">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="@((Model.Book.Id == 0) ? SD.NoPhoto : Model.Book.ImageUrl)" alt="Book Image" id="target">
+                <div class="card-body">
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <label>Image</label>
+                        </div>
+                        <div class="col-9 offset-1">
+                            <input type="file" multiple name="BookImage" id="BookImageInput" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*<div class="panel panel-primary">
+                    <div class="panel-heading">Book Image</div>
+                    <div class="panel-body">
+                        <img src="@(SD.NoPhoto)" alt="Book image" class="img-thumbnail" id="BookImage" style="width:200px;" />
+
+                        <div class="form-group row">
+                            <div class="col-md-2">
+                                <label class="text-bold">Iamge</label>
+                            </div>
+                            <div class="col-md-10">
+                                <input type="file" class="form-control" multiple name="BookImage" id="BookImageInput" />
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
         </div>
     </div>
 </form>
@@ -181,7 +197,7 @@
             content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
         });
 
-        // Validate
+        // Validate Image
         function validateImageInput() {
             if (document.getElementById("BookImageInput").value == "") {
                 swal("Error", "Please select an image", "error");
@@ -190,6 +206,23 @@
 
             return true;
         }
+
+
+        // Display Selected Image
+        function showImage(src, target) {
+            var fr = new FileReader();
+            // when image is loaded, set the src of the image where you want to display it
+            fr.onload = function (e) { target.src = this.result; };
+            src.addEventListener("change", function () {
+                // fill fr with image data    
+                fr.readAsDataURL(src.files[0]);
+            });
+        }
+
+        var src = document.getElementById("BookImageInput");
+        var target = document.getElementById("target");
+        showImage(src, target);
+
     </script>
 
 }

@@ -248,11 +248,11 @@ namespace BulkyBook.Web.Areas.Customer.Controllers
         [ActionName("Summary")]
         public async Task<IActionResult> SummaryPost(string stripeToken)
         {
-            //if (ModelState.IsValid)
-            //{
-            #region Get id logged in user
+            if (ModelState.IsValid)
+            {
+                #region Get id logged in user
 
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
             #endregion
@@ -354,31 +354,31 @@ namespace BulkyBook.Web.Areas.Customer.Controllers
 
             return RedirectToAction(nameof(OrderConfirmation), "Cart",
                     new { id = ShoppingCartVM.OrderHeader.Id });
-            //}
-            //else
-            //{
-            //    #region Get id logged in user
+            }
+            else
+            {
+                #region Get id logged in user
 
-            //    var claimsIdentity = (ClaimsIdentity)User.Identity;
-            //    var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
-            //    #endregion
+                #endregion
 
-            //    ShoppingCartVM.CartList = await _unitOfWork.ShoppingCartRepository.
-            //        GetCartsByUserId(claim.Value);
+                ShoppingCartVM.CartList = await _unitOfWork.ShoppingCartRepository.
+                    GetCartsByUserId(claim.Value);
 
-            //    foreach (ShoppingCart cart in ShoppingCartVM.CartList)
-            //    {
-            //        cart.Price = BookPrice.GetPriceBasedOnQuantity(cart.Count,
-            //            cart.Book.Price, cart.Book.Price50, cart.Book.Price100);
-            //        ShoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
-            //    }
+                foreach (ShoppingCart cart in ShoppingCartVM.CartList)
+                {
+                    cart.Price = BookPrice.GetPriceBasedOnQuantity(cart.Count,
+                        cart.Book.Price, cart.Book.Price50, cart.Book.Price100);
+                    ShoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
+                }
 
-            //    ShoppingCartVM.OrderHeader.ApplicationUser = await _unitOfWork.
-            //        ApplicationUserRepository.GetUserById(claim.Value);
+                ShoppingCartVM.OrderHeader.ApplicationUser = await _unitOfWork.
+                    ApplicationUserRepository.GetUserById(claim.Value);
 
-            //    return View(ShoppingCartVM);
-            //}
+                return View(ShoppingCartVM);
+            }
 
         }
 

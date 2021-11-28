@@ -1,0 +1,51 @@
+﻿@model BulkyBook.DomainClass.Setting.SiteSetting
+
+<footer class="border-top footer text-white-50 bg-primary">
+    @*<div class="container">
+        <div class="row">
+            <div class="col-3">
+                <img src="~/images/DefaultImages/sarmi2-37.jpg" alt="website logo"
+                     class="rounded-circle" width="50px">
+                <p style="text-align:justify;">
+                    Subscribe Easy Tutorials YouTube Channel to
+                    watch more videos on Website Development,
+                    UI Designing and Digital Marketing.
+                    Press the bell icon to get immediate
+                    notification of new videos.
+                </p>
+            </div>
+            <div class="col-3">
+                <h4>Features</h4>
+                <p>Deals & Offers</p>
+                <p>Customer Reviews</p>
+                <p>Cancelatio Policy</p>
+            </div>
+            <div class="col-3">
+                <h4>Quick Contact</h4>
+                <p> <i class="fa fa-phone-square"></i> +1 0123456789</p>
+                <p><i class="fa fa-envelope"></i> hello@example.com</p>
+                <p><i class="fa fa-home"></i> xyz Road, ABC City</p>
+            </div>
+            <div class="col-3">
+                <h4>Follow Us on</h4>
+                <p><i class="fa fa-facebook-official"></i> Facebook</p>
+                <p><i class="fa fa-youtube-play"></i> YouTube</p>
+                <p><i class="fa fa-twitter"></i> Twitter</p>
+            </div>
+        </div>
+        <hr>
+        <div class="text-center">
+            &copy; @Html.Raw(Model.CopyRight) -
+            <a asp-area="" asp-controller="home" asp-action="privacy">
+                privacy
+            </a>
+        </div>
+    </div>*@
+
+    <div class="container">
+        &copy; @Html.Raw(Model.CopyRight) - 
+        <a asp-area="" asp-controller="Home" asp-action="privacy">
+            privacy
+        </a>
+    </div>
+</footer>

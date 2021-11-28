@@ -2,6 +2,7 @@
 using BulkyBook.DataAccess.Data;
 using BulkyBook.DomainClass.User;
 using BulkyBook.Services.Context;
+using BulkyBook.ViewModel.Public;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -32,7 +33,7 @@ namespace BulkyBook.Web.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            return View(); ;
+            return View(); 
         }
 
         #endregion

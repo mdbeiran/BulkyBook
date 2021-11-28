@@ -1,5 +1,6 @@
 ﻿using BulkyBook.Services.Repositories;
 using BulkyBook.Services.Repositories.Public;
+using BulkyBook.Services.Repositories.Setting;
 using BulkyBook.Services.Repositories.User;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,13 @@ namespace BulkyBook.Services.Context
         IOrderHeaderRepository OrderHeaderRepository { get; }
         IOrderDetailsRepository OrderDetailsRepository { get; }
 
+
+        #endregion
+
+        #region Setting
+
+        public ISiteSettingRepository SiteSettingRepository { get; }
+        public IContactUsRepository ContactUsRepository { get; }
 
         #endregion
 

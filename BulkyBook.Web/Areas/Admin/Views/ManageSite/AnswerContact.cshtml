@@ -1,0 +1,77 @@
+﻿@model BulkyBook.DomainClass.Setting.ContactUs
+
+@{
+    ViewData["Title"] = "Answer";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="container p-3">
+    <form method="post">
+        @Html.AntiForgeryToken()
+
+        <input asp-for="Id" hidden />
+        <input asp-for="FullName" hidden />
+        <input asp-for="Email" hidden />
+        <input asp-for="CreateDate" hidden />
+        <input asp-for="Message" hidden />
+        <input asp-for="UserId" hidden />
+        <input asp-for="UserIp" hidden />
+        <input asp-for="IsRead" hidden />
+        <input asp-for="Subject" hidden />
+
+
+        <div class="row p-3 border">
+            <div class="col-12 border-bottom">
+                <h2 class="text-dark">Answer To Contact</h2>
+            </div>
+
+            <div class="col-8 pt-4">
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="Answer"></label>
+                    </div>
+                    <div class="col-8">
+                        <textarea asp-for="Answer" class="form-control" id="answer"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-8 offset-4">
+                        <div class="row">
+                            <div class="col">
+                                <button type="submit" onclick="return ValidateTextArea()" class="btn btn-success form-control">
+                                    Send
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/Custom.js"></script>
+
+    <script src="https://cdn.tiny.cloud/1/ngmcapzjz97fuxpvni2s8pkccjooqt74196lnte523vnj1ul/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        // TinyMCE
+        tinymce.init({
+            selector: 'textarea',
+            height: 250,
+            menubar: 'file edit format',
+            plugins: [
+                'advlist autolink lists link image charmap print preview anchor',
+                'searchreplace visualblocks code fullscreen',
+                'insertdatetime media table paste code help wordcount'
+            ],
+            toolbar: 'undo redo | formatselect | ' +
+                'bold italic backcolor | alignleft aligncenter ' +
+                'alignright alignjustify | bullist numlist outdent indent | ' +
+                'removeformat | help',
+            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+        });
+
+    </script>
+}

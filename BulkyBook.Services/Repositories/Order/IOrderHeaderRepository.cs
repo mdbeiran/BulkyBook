@@ -16,5 +16,6 @@ namespace BulkyBook.Services.Repositories
         Task<IEnumerable<OrderHeader>> GetOrderHeaders();
         Task<OrderHeader> GetOrderHeaderById(int orderHeaderId);
         Task<IEnumerable<OrderHeader>> GetOrderHeadersByUserId(string userId);
+        Task<int> GetCountNewOrders();
     }
 }

@@ -1,5 +1,5 @@
 ﻿// Delete Category Object
-function Delete(url) {
+function DeleteCategory(url) {
     swal({
         title: "Are you sure you want to Delete ?",
         text: "You will not be able to restore the data!",
@@ -14,7 +14,11 @@ function Delete(url) {
                 success: function (data) {
                     if (data.success) {
                         toastr.success(data.message);
-                        dataTable.ajax.reload();
+                        //$('#tblCategory').DataTable().ajax.reload();
+
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1000);
                     }
                     else {
                         toastr.error(data.message);
@@ -27,7 +31,7 @@ function Delete(url) {
 
 
 // Delete CoverType Object
-function Delete(url) {
+function DeleteCoverType(url) {
     swal({
         title: "Are you sure you want to Delete ?",
         text: "You will not be able to restore the data!",
@@ -47,11 +51,13 @@ function Delete(url) {
                             icon: "success",
                             dangerMode: true
                         });
-                        dataTable.ajax.reload();
+                        setTimeout(function () {
+                            $('#tblCoverType').DataTable().ajax.reload();
+                        }, 1000);
                     }
                     else {
                         swal({
-                            title:"Oops...",
+                            title: "Oops...",
                             text: data.message,
                             icon: "error",
                             dangerMode: true
@@ -65,7 +71,7 @@ function Delete(url) {
 
 
 // Delete Book Object
-function Delete(url) {
+function DeleteBook(url) {
     swal({
         title: "Are you sure you want to Delete ?",
         text: "You will not be able to restore the data!",
@@ -87,7 +93,7 @@ function Delete(url) {
 
 
 // Delete Company Object
-function Delete(url) {
+function DeleteCompany(url) {
     swal({
         title: "Are you sure you want to Delete ?",
         text: "You will not be able to restore the data!",
@@ -101,6 +107,35 @@ function Delete(url) {
                 url: url,
                 success: function (data) {
                     location.reload();
+                }
+            });
+        }
+    }));
+}
+
+
+// Delete Slider Object
+function DeleteSlider(url) {
+    swal({
+        title: "Are you sure you want to Delete ?",
+        text: "You will not be able to restore the data!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true
+    }).then((willDelete => {
+        if (willDelete) {
+            $.ajax({
+                type: "DELETE",
+                url: url,
+                success: function (data) {
+                    if (data.success) {
+                        toastr.success(data.message);
+                        $('#tblSlider').DataTable().ajax.reload();
+
+                    }
+                    else {
+                        toastr.error(data.message);
+                    }
                 }
             });
         }
