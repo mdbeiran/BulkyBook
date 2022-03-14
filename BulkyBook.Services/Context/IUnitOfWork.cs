@@ -1,7 +1,9 @@
 ﻿using BulkyBook.Services.Repositories;
 using BulkyBook.Services.Repositories.Public;
 using BulkyBook.Services.Repositories.Setting;
+using BulkyBook.Services.Repositories.Ticketing;
 using BulkyBook.Services.Repositories.User;
+using BulkyBook.Services.Services.Ticketing;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -45,6 +47,15 @@ namespace BulkyBook.Services.Context
 
         public ISiteSettingRepository SiteSettingRepository { get; }
         public IContactUsRepository ContactUsRepository { get; }
+
+        #endregion
+
+        #region Ticketing
+
+        public ITicketRepository TicketRepository { get; }
+        public ITicketMessageRepository TicketMessageRepository { get; }
+        public ITicketAttachmentRepository TicketAttachmentRepository { get; }
+
 
         #endregion
 

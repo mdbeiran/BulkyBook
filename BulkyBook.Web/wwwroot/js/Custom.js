@@ -65,3 +65,22 @@ function ValidateTextArea() {
         return true;
     }
 }
+
+
+// Open or close ticket
+function OpenCloseTicket(id) {
+    $.ajax({
+        type: "POST",
+        url: "/Admin/ManageTicket/OpenCloseTicket/" + id,
+        contentType: "application/json",
+        success: function (data) {
+            if (data.success) {
+                toastr.success(data.message);
+                $('#tblTicket').DataTable().ajax.reload();
+            }
+            else {
+                toastr.error(data.message);
+            }
+        }
+    });
+}

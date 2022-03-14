@@ -2,6 +2,7 @@
 using BulkyBook.DomainClass.Order;
 using BulkyBook.DomainClass.Public;
 using BulkyBook.DomainClass.Setting;
+using BulkyBook.DomainClass.Ticketing;
 using BulkyBook.DomainClass.User;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -56,6 +57,14 @@ namespace BulkyBook.DataAccess.Data
 
         public DbSet<SiteSetting> SiteSettings { get; set; }
         public DbSet<ContactUs> ContactUs { get; set; }
+
+        #endregion
+
+        #region Ticketing
+
+        public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<TicketMessage> TicketMessages { get; set; }
+        public DbSet<TicketAttachment> TicketAttachments { get; set; }
 
         #endregion
 

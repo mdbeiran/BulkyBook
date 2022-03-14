@@ -40,6 +40,12 @@
                         <a class="nav-link" asp-area="Admin" asp-controller="ManageOrder" asp-action="Index">Orders</a>
                     </li>
                 }
+                @if (User.IsInRole(SD.Role_User_Comp) || User.IsInRole(SD.Role_User_Indi) || User.IsInRole(SD.Role_Employee))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="Admin" asp-controller="ManageTicket" asp-action="Index">Ticket</a>
+                    </li>
+                }
                 <li class="nav-item">
                     <a class="nav-link" href="/AboutUs">About Us</a>
                 </li>

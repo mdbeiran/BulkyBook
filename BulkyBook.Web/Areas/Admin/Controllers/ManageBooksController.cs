@@ -130,6 +130,7 @@ namespace BulkyBook.Web.Areas.Admin.Controllers
                     {
                         await files[0].CopyToAsync(filesStreams);
                     }
+
                     #endregion
 
                     bookVM.Book.ImageUrl = @"\images\Books\Origin\" + fileName + extension;

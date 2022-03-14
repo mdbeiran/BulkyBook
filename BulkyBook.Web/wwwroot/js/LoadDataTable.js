@@ -8,6 +8,8 @@ $(document).ready(function () {
     loadDataTableUser();
     loadDataTableSlider();
     loadDataTableContactUs();
+    loadDataTableTicket();
+
 
     // Load dataTable order
     let url = window.location.search;
@@ -348,6 +350,56 @@ function loadDataTableContactUs() {
                             </div>
                             `;
                 }, "width": "15%"
+            }
+        ]
+    });
+}
+
+
+// Load DataTable Ticket
+function loadDataTableTicket() {
+    dataTable = $('#tblTicket').DataTable({
+        "ajax": {
+            "url": "/Admin/ManageTicket/GetTickets"
+        },
+        "columns": [
+            { "data": "id", "width": "10%" },
+            { "data": "applicationUser.fullName", "width": "20%" },
+            { "data": "applicationUser.email", "width": "10%" },
+            { "data": "subject", "width": "20%" },
+            {
+                "data": {
+                    id: "id", status: "status"
+                },
+                "render": function (data) {
+                    if (data.status) {
+                        return `<div class="text-center">
+                                    <a onclick=OpenCloseTicket('${data.id}') class="btn btn-danger text-white" style="cursor:pointer;">
+                                        Close
+                                    </a>
+                                </div>`
+                    }
+                    else {
+                        return `<div class="text-center">
+                                    <a onclick=OpenCloseTicket('${data.id}') class="btn btn-success text-white" style="cursor:pointer;">
+                                        Open
+                                    </a>
+                                </div>`
+                    }
+                },
+                "width": "5%"
+            },
+            {
+                "data": "id",
+                "render": function (data) {
+                    return `
+                            <div class="text-center">
+                                <a href="/Admin/ManageTicket/TicketDetail/${data}" class="btn btn-info text-white" style="cursor:pointer;">
+                                    View Ticket
+                                </a>
+                            </div>
+                            `;
+                }, "width": "10%"
             }
         ]
     });

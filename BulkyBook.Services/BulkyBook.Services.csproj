@@ -7,6 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BulkyBook.DataAccess\BulkyBook.DataAccess.csproj" />
     <ProjectReference Include="..\BulkyBook.DomainClass\BulkyBook.DomainClass.csproj" />
+    <ProjectReference Include="..\BulkyBook.ViewModel\BulkyBook.ViewModel.csproj" />
   </ItemGroup>
 
 </Project>
