@@ -22,8 +22,12 @@ namespace BulkyBook.DomainClass.Ticketing
         [ForeignKey("ApplicationUserId")]
         public ApplicationUser ApplicationUser { get; set; }
 
+
         [Required]
         public string Description { get; set; }
+
+
+        public DateTime CreateDate { get; set; }
 
     }
 }

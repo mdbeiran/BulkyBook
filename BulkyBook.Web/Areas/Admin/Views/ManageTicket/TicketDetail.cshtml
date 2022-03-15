@@ -11,12 +11,12 @@
         <thead class="thead-dark">
             <tr class="table-info">
                 <th>Subject</th>
-                <th>Date</th>
+                <th>Create Date</th>
                 <th>Status</th>
             </tr>
             <tr>
-                <td>@Model.Subject</td>
-                <td>2020</td>
+                <td>@Model.TicketMessage.Ticket.Subject</td>
+                <td>@Model.TicketMessage.Ticket.CreateDate</td>
                 @if (Model.TicketMessage.Ticket.Status)
                 {
                     <td class="text-info">Open</td>
@@ -42,7 +42,13 @@
 
         <div class="form-group row">
             <div class="col-8">
-                <input value="@message.RoleName" class="form-control" readonly />
+                <input asp-for="@message.RoleName" class="form-control" readonly />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-8">
+                <input asp-for="@message.TicketMessage.CreateDate" class="form-control" readonly />
             </div>
         </div>
 
@@ -55,49 +61,51 @@
     </div>
 }
 
-<div class="row p-4">
-    <div class="col-12 border-bottom">
-        <h2 class="text-dark">Create Ticket</h2>
-    </div>
-    <div class="col-8 pt-4">
-        <div class="form-group row">
-            <div class="col-8">
-                <input asp-for="@Model.FullName" class="form-control" readonly />
-            </div>
+@if (Model.TicketMessage.Ticket.Status)
+{
+    <div class="row p-4">
+        <div class="col-12 border-bottom">
+            <h2 class="text-dark">Create Ticket</h2>
         </div>
-
-        <form method="post" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @Html.AntiForgeryToken()
-            <input type="hidden" asp-for="TicketMessage.TicketId" />
-
+        <div class="col-8 pt-4">
             <div class="form-group row">
                 <div class="col-8">
-                    <textarea asp-for="@Model.TicketMessage.Description" class="form-control" placeholder="Message"></textarea>
-                    <span asp-validation-for="@Model.TicketMessage.Description" class="text-danger"></span>
+                    <input asp-for="@Model.FullName" class="form-control" readonly />
                 </div>
-                <br />
             </div>
-            <div class="form-group row">
-                <div class="col-8">
-                    <div class="row">
-                        <div class="col">
-                            <button type="submit" @*onclick="return validateImageInput()"*@ class="btn btn-success form-control">Create</button>
-                        </div>
-                        <div class="col">
-                            <a asp-action="Index" class="btn btn-primary form-control">Back To List</a>
+
+            <form method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="TicketMessage.TicketId" />
+
+                <div class="form-group row">
+                    <div class="col-8">
+                        <textarea asp-for="@Model.TicketMessage.Description" class="form-control" placeholder="Message"></textarea>
+                        <span asp-validation-for="@Model.TicketMessage.Description" class="text-danger"></span>
+                    </div>
+                    <br />
+                </div>
+                <div class="form-group row">
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col">
+                                <button type="submit" @*onclick="return validateImageInput()"*@ class="btn btn-success form-control">Create</button>
+                            </div>
+                            <div class="col">
+                                <a asp-action="Index" class="btn btn-primary form-control">Back To List</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
+
+        @*<div class="col-4 pt-4">
+                <input type="file" name="SliderImage" multiple id="SliderImageInput" />
+            </div>*@
     </div>
-
-
-    @*<div class="col-4 pt-4">
-            <input type="file" name="SliderImage" multiple id="SliderImageInput" />
-        </div>*@
-</div>
+}
 
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />

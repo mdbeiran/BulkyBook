@@ -17,12 +17,16 @@ namespace BulkyBook.DomainClass.Ticketing
         [ForeignKey("ApplicationUserId")]
         public ApplicationUser ApplicationUser { get; set; }
 
+
         [Required]
         [MaxLength(200)]
         public string Subject { get; set; }
 
 
         public bool Status { get; set; }
+
+
+        public DateTime CreateDate { get; set; }
 
     }
 }

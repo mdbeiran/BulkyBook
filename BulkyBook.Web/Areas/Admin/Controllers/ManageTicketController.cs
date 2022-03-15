@@ -35,10 +35,10 @@ namespace BulkyBook.Web.Areas.Admin.Controllers
 
         #endregion
 
-        #region Create
+        #region Submit Ticket
 
         [HttpGet]
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> SubmitTicket()
         {
             #region Get id logged in user
 
@@ -59,7 +59,7 @@ namespace BulkyBook.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(TicketVM ticketVM)
+        public async Task<IActionResult> SubmitTicket(TicketVM ticketVM)
         {
             if (ModelState.IsValid)
             {
@@ -76,7 +76,8 @@ namespace BulkyBook.Web.Areas.Admin.Controllers
                 {
                     ApplicationUserId = claim.Value,
                     Subject = ticketVM.Subject,
-                    Status = true
+                    Status = true,
+                    CreateDate = DateTime.Now
                 };
                 await _unitOfWork.TicketRepository.Insert(ticket);
                 await _unitOfWork.Save();
@@ -85,7 +86,8 @@ namespace BulkyBook.Web.Areas.Admin.Controllers
                 {
                     TicketId = ticket.Id,
                     ApplicationUserId = claim.Value,
-                    Description = ticketVM.Description
+                    Description = ticketVM.Description,
+                    CreateDate = DateTime.Now
                 };
                 await _unitOfWork.TicketMessageRepository.Insert(ticketMessage);
                 await _unitOfWork.Save();
@@ -123,13 +125,13 @@ namespace BulkyBook.Web.Areas.Admin.Controllers
             TicketMessageVM ticketMessageVM = new TicketMessageVM()
             {
                 TicketMessageWithRoleVMs = await _unitOfWork.TicketMessageRepository.GetTicketMessagesByTicketId(id),
+                //Ticket = ticket,
                 TicketMessage = new TicketMessage()
                 {
                     TicketId = id,
                     Ticket = ticket
                 },
                 FullName = currentUser.FullName,
-                Subject = ticket.Subject
             };
 
             return View(ticketMessageVM);
@@ -146,6 +148,7 @@ namespace BulkyBook.Web.Areas.Admin.Controllers
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
             #endregion
+
             var currentUser = await _unitOfWork.ApplicationUserRepository.GetUserById(claim.Value);
 
             if (ModelState.IsValid)
@@ -154,7 +157,8 @@ namespace BulkyBook.Web.Areas.Admin.Controllers
                 {
                     TicketId = ticketMessage.TicketId,
                     ApplicationUserId = currentUser.Id,
-                    Description = ticketMessage.Description
+                    Description = ticketMessage.Description,
+                    CreateDate = DateTime.Now
                 };
 
                 await _unitOfWork.TicketMessageRepository.Insert(message);
@@ -169,8 +173,7 @@ namespace BulkyBook.Web.Areas.Admin.Controllers
                 TicketMessageWithRoleVMs = await _unitOfWork.TicketMessageRepository.GetTicketMessagesByTicketId(ticketMessage.TicketId),
                 TicketMessage = new TicketMessage(),
                 FullName = currentUser.FullName,
-                Email = currentUser.Email,
-                Subject = ticket.Subject
+                Email = currentUser.Email
             };
 
             return View(ticketMessage);
@@ -230,7 +233,7 @@ namespace BulkyBook.Web.Areas.Admin.Controllers
                 ticket.Status = true;
             }
 
-             _unitOfWork.TicketRepository.Update(ticket);
+            _unitOfWork.TicketRepository.Update(ticket);
             await _unitOfWork.Save();
 
             return Json(new { success = true, message = "Operation Successful" });

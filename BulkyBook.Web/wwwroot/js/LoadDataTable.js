@@ -363,10 +363,11 @@ function loadDataTableTicket() {
             "url": "/Admin/ManageTicket/GetTickets"
         },
         "columns": [
-            { "data": "id", "width": "10%" },
-            { "data": "applicationUser.fullName", "width": "20%" },
+            { "data": "id", "width": "5%" },
+            { "data": "applicationUser.fullName", "width": "15%" },
             { "data": "applicationUser.email", "width": "10%" },
-            { "data": "subject", "width": "20%" },
+            { "data": "subject", "width": "15%" },
+            { "data": "createDate", "width": "20%" },
             {
                 "data": {
                     id: "id", status: "status"

@@ -1,9 +1,10 @@
-﻿
-@using BulkyBook.Business.StaticTools
+﻿@using BulkyBook.Business.StaticTools
+
 @{
     ViewData["Title"] = "Ticket List";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
+
 <div class="p-4">
     <br />
     <div class="row">
@@ -13,7 +14,7 @@
         @if (User.IsInRole(SD.Role_User_Indi) || User.IsInRole(SD.Role_User_Comp))
         {
             <div class="col-6 text-right">
-                <a href="/Admin/ManageTicket/Create" class="btn btn-dark"><i class="fas fa-plus"></i> &nbsp; Create New Ticket</a>
+                <a href="/Admin/ManageTicket/SubmitTicket" class="btn btn-dark"><i class="fas fa-plus"></i> &nbsp; Create New Ticket</a>
             </div>
         }
     </div>
@@ -28,6 +29,7 @@
                     <th>FullName</th>
                     <th>Email</th>
                     <th>Subject</th>
+                    <th>Create Date</th>
                     <th>Status</th>
                     <th>Command</th>
                 </tr>
